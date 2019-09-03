@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-  <script src="axios.min.js"></script>
   <style>
     html, body { height: 100vh; padding: 0; margin: 0;}
     * { outline: none !important; }
@@ -76,8 +75,14 @@
           }
         }
       };
-      axios.post('/rpc/Config.Set', data).then(function(res) {
-        return axios.post('/rpc/Config.Save', {reboot: true});
+      fetch('/rpc/Config.Set', {
+        method: 'post',
+        body: JSON.stringify(data)
+      }).then(function(res) {
+        return fetch('/rpc/Config.Save', {
+          method: 'post',
+          body: '{reboot: true}'
+        });
       }).catch(function(err) {
         alert(err);
       }).then(function() {
